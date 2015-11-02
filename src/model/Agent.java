@@ -1,5 +1,5 @@
-package timeserver;
+package model;
 
 public interface Agent {
-  public void run();
+  public void run(double time);
 }

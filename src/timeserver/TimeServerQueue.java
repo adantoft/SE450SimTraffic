@@ -2,19 +2,21 @@ package timeserver;
 
 import java.util.PriorityQueue;
 
+import model.Agent;
+
 public final class TimeServerQueue implements TimeServer {
   private static final class Node implements Comparable<Node> {
-    final long waketime;
+    final double waketime;
     final Agent agent;
-    public Node(long waketime, Agent agent) {
+    public Node(double waketime, Agent agent) {
       this.waketime = waketime;
       this.agent = agent;
     }
     public int compareTo(Node that) {
-      return Long.signum(this.waketime - that.waketime);
+      return Long.signum((long) (this.waketime - that.waketime));
     }
   }
-  private long _currentTime;
+  private double _currentTime;
   private PriorityQueue<Node> _queue;
 
   public TimeServerQueue() {
@@ -35,11 +37,11 @@ public final class TimeServerQueue implements TimeServer {
     return (sb.toString());
   }
 
-  public long currentTime() {
+  public double currentTime() {
     return _currentTime;
   }
 
-  public void enqueue(long waketime, Agent agent)
+  public void enqueue(double waketime, Agent agent)
     throws IllegalArgumentException
   {
     if (waketime < _currentTime)
@@ -60,11 +62,11 @@ public final class TimeServerQueue implements TimeServer {
     return _queue.isEmpty();
   }
 
-  public void run(int duration) {
-    long endtime = _currentTime + duration;
+  public void run(double duration) {
+	double endtime = _currentTime + duration;
     while ((!empty()) && (_queue.peek().waketime <= endtime)) {
       _currentTime = _queue.peek().waketime;
-      dequeue().run();
+      dequeue().run(duration);
     }
     _currentTime = endtime;
   }

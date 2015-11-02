@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import timeserver.TimeServerTEST;
 
 @RunWith(Suite.class) //Runs each of the below tests in addition to tests here
-@SuiteClasses({TimeServerTEST.class})
+@SuiteClasses({TimeServerTEST.class}) // add new tests here
 
 public class TestingSuite {
 

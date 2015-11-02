@@ -1,7 +1,9 @@
 package timeserver;
 
+import model.Agent;
+
 public interface TimeServer {
-    public long currentTime();
-    public void enqueue(long waketime, Agent thing);
-    public void run(int duration);
+    public double currentTime();
+    public void enqueue(double waketime, Agent thing);
+    public void run(double duration);
 }
