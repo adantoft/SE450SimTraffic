@@ -18,7 +18,8 @@ public class TimeServerTEST {
 		boolean exceptionOccurred = false;
 
 		try {
-//			Agent o = q.dequeue();
+			@SuppressWarnings("unused")
+			Agent o = q.dequeue();
 		} catch (java.util.NoSuchElementException e) {
 			exceptionOccurred = true;
 		}

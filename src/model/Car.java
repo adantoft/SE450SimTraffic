@@ -1,5 +1,7 @@
 package model;
 
+import parameters.ModelParams;
+
 /**
  * A car remembers its position from the beginning of its road.
  * Cars have random velocity and random movement pattern:
@@ -11,7 +13,7 @@ public class Car implements Agent {
 
   private boolean _backAndForth = Math.round(Math.random())==1 ? true : false;
   private double _position = 0;
-  private double _velocity = (int) Math.ceil(Math.random() * MP.maxVelocity);
+  private double _velocity = (int) Math.ceil(Math.random() * 5);//TODO: Update
   private java.awt.Color _color = new java.awt.Color((int)Math.ceil(Math.random()*255),(int)Math.ceil(Math.random()*255),(int)Math.ceil(Math.random()*255));
   
   public double getPosition() {
@@ -22,10 +24,10 @@ public class Car implements Agent {
   }
   public void run(double time) {
     if (_backAndForth) {
-      if (((_position + _velocity) < 0) || ((_position + _velocity) > (MP.roadLength-MP.carLength)))
+      if (((_position + _velocity) < 0) || ((_position + _velocity) > (30-5)))//TODO: Update
         _velocity *= -1;
     } else {
-      if ((_position + _velocity) > (MP.roadLength-MP.carLength))
+      if ((_position + _velocity) > (30-5))//TODO: Update
         _position = 0;
     }
     _position += _velocity;
