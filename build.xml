@@ -54,7 +54,7 @@
 
   <!-- source directory -->
   <property name="src.app"  value="src" />
-  <property name="src.test" value="src" />
+  <property name="src.test" value="test" />
 
   <!-- external library directory -->
   <property name="xtr.dir" value="extra" />
