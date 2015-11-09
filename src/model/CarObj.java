@@ -6,9 +6,6 @@ import timeserver.TimeServer;
 //TODO probably dont need this detail
 /**
  * A car remembers its position from the beginning of its road. 
- * Cars have random velocity and random movement pattern:
- * when reaching the end of a road, the dot either resets its position
- * to the beginning of the road, or reverses its direction.
  */
 public class CarObj implements Agent, Car {
 
@@ -19,7 +16,8 @@ public class CarObj implements Agent, Car {
 	private double stopDistance;
 	private double length;
 	private double frontPosition;
-	private double rearPosition;
+	private Road currentRoad;
+	private double timeStep;
 
 	CarObj() { 
 
@@ -28,27 +26,25 @@ public class CarObj implements Agent, Car {
 		this.stopDistance = Math.max(config.getCarStopDistanceMax() * Math.random(), config.getCarStopDistanceMin());
 		this.length = Math.max(config.getCarLengthMax() * Math.random(), config.getCarLengthMin());
 		this.time = config.getTimeServer();
+		this.timeStep = config.getSimTimeStep();
+		this.frontPosition = 0.0;
+		
 	}
 
 	public void run(double time) {
-		if (_backAndForth) {
-			if (((_position + _velocity) < 0) || ((_position + _velocity) > (30-5)))//TODO: Update
-				_velocity *= -1;
-		} else {
-			if ((_position + _velocity) > (30-5))//TODO: Update
-				_position = 0;
-		}
-		_position += _velocity;
+		setFrontPosition(getCurrentVelocity());
+		this.time.enqueue(this.time.currentTime() + timeStep, this);
 	}
 
 	@Override
 	public double getCurrentVelocity() {
+		
+		double distanceToObstacle = currentRoad.distanceToObstacle(frontPosition);
 		double velocity =  (maxVelocity / (brakeDistance - stopDistance))*(distanceToObstacle - stopDistance);
 		velocity = Math.max(0.0, velocity);
 		velocity = Math.min(maxVelocity, velocity);
-		nextFrontPosition = frontPosition + velocity * timeStep;
-		// TODO Auto-generated method stub
-		return 0;
+		double nextFrontPosition = frontPosition + velocity * timeStep;
+		return nextFrontPosition; //TODO could consolidate this code?
 	}
 
 	@Override
@@ -60,8 +56,7 @@ public class CarObj implements Agent, Car {
 	public double getBrakeDistance() {
 		return brakeDistance;
 	}
-
-
+	
 	@Override
 	public double getStopDistance() {
 		return stopDistance;
@@ -78,15 +73,27 @@ public class CarObj implements Agent, Car {
 	}
 
 	@Override
-	public void setFrontPosition(double position) {
-		// TODO Auto-generated method stub
-
+	public void setFrontPosition(double newPosition) {
+		Road road = this.currentRoad;
+		
+		if(newPosition > road.getEndPosition()){
+			//TODO go to next road this.currentRoad.getNextRoad().accept(this, position - )
+		}else {
+			frontPosition = newPosition;
+		}
 	}
 
 	@Override
 	public double getRearPosition() {
-		// TODO Auto-generated method stub
-		return 0;
+		return frontPosition - length;
+	}
+
+	public Road getCurrentRoad() {
+		return currentRoad;
+	}
+
+	public void setCurrentRoad(Road currentRoad) {
+		this.currentRoad = currentRoad;
 	}
 
 }
