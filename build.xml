@@ -193,6 +193,7 @@
        source="${source.version}"
        deprecation="on"
        debug="on"
+    	includeantruntime = "false"
       >
       <compilerarg value="${compiler.args}"/>
       <classpath refid="class.path.base" />
@@ -238,6 +239,7 @@
        source="${source.version}"
        deprecation="on"
        debug="on"
+    	includeantruntime = "false"
       >
       <compilerarg value="${compiler.args}"/>
       <classpath refid="class.path.app" />
