@@ -6,10 +6,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import model.CarTEST;
+import model.RoadTEST;
+import model.SourceSinkTEST;
 import timeserver.TimeServerTEST;
 
 @RunWith(Suite.class) //Runs each of the below tests in addition to tests here
-@SuiteClasses({TimeServerTEST.class}) // add new tests here
+@SuiteClasses({TimeServerTEST.class, CarTEST.class, RoadTEST.class, SourceSinkTEST.class}) // add new tests here
 
 public class TestingSuite {
 
