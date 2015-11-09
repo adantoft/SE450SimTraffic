@@ -4,6 +4,7 @@ import parameters.ModelConfig;
 import timeserver.TimeServer;
 
 //TODO probably dont need this detail
+//TODO equals, tostring, compareTo
 /**
  * A car remembers its position from the beginning of its road. 
  */
@@ -39,14 +40,25 @@ public class CarObj implements Agent, Car {
 	@Override
 	public double getCurrentVelocity() {
 		
-		double distanceToObstacle = currentRoad.distanceToObstacle(frontPosition);
+		double distanceToObstacle = currentRoad.distanceToObstacle(frontPosition); //talks to road to grab next object after front position
 		double velocity =  (maxVelocity / (brakeDistance - stopDistance))*(distanceToObstacle - stopDistance);
 		velocity = Math.max(0.0, velocity);
 		velocity = Math.min(maxVelocity, velocity);
 		double nextFrontPosition = frontPosition + velocity * timeStep;
 		return nextFrontPosition; //TODO could consolidate this code?
 	}
-
+	
+	@Override
+	public void setFrontPosition(double newPosition) {
+		Road road = this.currentRoad;
+		
+		if(newPosition > road.getEndPosition()){
+			//TODO go to next road this.currentRoad.getNextRoad().accept(this, position - )
+		}else {
+			frontPosition = newPosition;
+		}
+	}
+	
 	@Override
 	public double getMaxVelocity() {
 		return maxVelocity;
@@ -70,17 +82,6 @@ public class CarObj implements Agent, Car {
 	@Override
 	public double getFrontPosition() {
 		return frontPosition;
-	}
-
-	@Override
-	public void setFrontPosition(double newPosition) {
-		Road road = this.currentRoad;
-		
-		if(newPosition > road.getEndPosition()){
-			//TODO go to next road this.currentRoad.getNextRoad().accept(this, position - )
-		}else {
-			frontPosition = newPosition;
-		}
 	}
 
 	@Override

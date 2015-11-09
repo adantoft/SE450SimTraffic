@@ -4,8 +4,7 @@ public class Sink implements CarAcceptor{
 
 	@Override
 	public boolean accept(CarObj c, double frontPosition) {
-		// TODO Auto-generated method stub
-		return false;
+		return true; //Eats up car (does nothing)
 	}
 
 	@Override

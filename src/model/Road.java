@@ -4,20 +4,19 @@ import java.util.Set;
 import parameters.ModelConfig;
 import java.util.HashSet;
 
+//TODO equals, tostring, compareTo
+
 /**
  * A road holds CarObjs.
  */
 final class Road implements CarAcceptor{
 
-
 	private ModelConfig config = ModelConfig.createConfig();
 	private Set<Car> cars;
 	private double endPosition;
-	CarAcceptor nextRoad;
-	
+	CarAcceptor nextRoad;	
 
 	Road() { 
-		
 		this.endPosition = Math.max(config.getRoadSegmentLengthMax() * Math.random(), config.getRoadSegmentLengthMin());
 		this.cars = new HashSet<Car>();
 	}
@@ -25,9 +24,13 @@ final class Road implements CarAcceptor{
 	public Set<Car> getCars() {
 		return cars;
 	}
+	
+	/**
+	 * Accepts new car on this road.
+	 */
 	@Override
 	public boolean accept(CarObj c, double frontPosition) {
-		cars.remove(c); //don't know if this is necesary
+		cars.remove(c); //don't know if this is necessary
 		if (frontPosition>endPosition){
 			return nextRoad.accept(c, frontPosition-endPosition);
 		}else{
@@ -46,9 +49,11 @@ final class Road implements CarAcceptor{
 			return false;
 		}
 	}
-	
+	/**
+	 * Finds distance to closest object from fromPosition on this road or next road.
+	 */	
 	public double distanceToObstacle(double fromPosition) {
-		double obstaclePosition = this.distanceToCarRear(fromPosition);
+		double obstaclePosition = this.getClosestObjPosition(fromPosition);
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
 			double distanceToEnd = this.endPosition - fromPosition;
 			obstaclePosition = nextRoad.distanceToObstacle(0.0) + distanceToEnd;
@@ -57,11 +62,13 @@ final class Road implements CarAcceptor{
 		return obstaclePosition - fromPosition;
 	}
 
-	private Double distanceToCarRear(Double fromPosition) {
+	/**
+	 * Finds position to closest object from fromPosition on this road.
+	 */	
+	private double getClosestObjPosition(double fromPosition) {
 		double carRearPosition = Double.POSITIVE_INFINITY;
 		for (Car c : cars)
-			if (c.getRearPosition() >= fromPosition &&
-			c.getRearPosition() < carRearPosition)
+			if (c.getRearPosition() >= fromPosition && c.getRearPosition() < carRearPosition)
 				carRearPosition = c.getRearPosition();
 		return carRearPosition;
 	}
