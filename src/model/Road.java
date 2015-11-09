@@ -16,27 +16,23 @@ final class Road implements CarAcceptor{
 	private double endPosition;
 	CarAcceptor nextRoad;	
 
-	Road() { 
+	Road(CarAcceptor next) { 
 		this.endPosition = Math.max(config.getRoadSegmentLengthMax() * Math.random(), config.getRoadSegmentLengthMin());
 		this.cars = new HashSet<Car>();
+		this.nextRoad = next;
 	}
-
-	public Set<Car> getCars() {
-		return cars;
-	}
-	
 	/**
 	 * Accepts new car on this road.
 	 */
 	@Override
-	public boolean accept(CarObj c, double frontPosition) {
-		cars.remove(c); //don't know if this is necessary
+	public boolean accept(CarObj car, double frontPosition) {
+		cars.remove(car); //don't know if this is necessary
 		if (frontPosition>endPosition){
-			return nextRoad.accept(c, frontPosition-endPosition);
+			return nextRoad.accept(car, frontPosition-endPosition);
 		}else{
-			c.setFrontPosition(frontPosition);
-			c.setCurrentRoad(this);
-			cars.add(c);
+			car.setCurrentRoad(this);
+			car.setFrontPosition(frontPosition);
+			cars.add(car);
 			return true;
 		}
 	}
@@ -61,7 +57,6 @@ final class Road implements CarAcceptor{
 		}
 		return obstaclePosition - fromPosition;
 	}
-
 	/**
 	 * Finds position to closest object from fromPosition on this road.
 	 */	
@@ -72,11 +67,16 @@ final class Road implements CarAcceptor{
 				carRearPosition = c.getRearPosition();
 		return carRearPosition;
 	}
-	
 	public double getEndPosition(){
 		return endPosition;
 	}
 	public CarAcceptor getNextRoad(){
 		return nextRoad;
+	}
+	public void setNextRoad(CarAcceptor nextRoad) {
+		this.nextRoad = nextRoad;
+	}
+	public Set<Car> getCars() {
+		return cars;
 	}
 }

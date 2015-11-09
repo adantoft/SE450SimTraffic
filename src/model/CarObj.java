@@ -28,15 +28,12 @@ public class CarObj implements Agent, Car {
 		this.length = Math.max(config.getCarLengthMax() * Math.random(), config.getCarLengthMin());
 		this.time = config.getTimeServer();
 		this.timeStep = config.getSimTimeStep();
-		this.frontPosition = 0.0;
-		
 	}
 
 	public void run(double time) {
 		setFrontPosition(getCurrentVelocity());
 		this.time.enqueue(this.time.currentTime() + timeStep, this);
 	}
-
 	@Override
 	public double getCurrentVelocity() {
 		
@@ -47,52 +44,45 @@ public class CarObj implements Agent, Car {
 		double nextFrontPosition = frontPosition + velocity * timeStep;
 		return nextFrontPosition; //TODO could consolidate this code?
 	}
-	
 	@Override
 	public void setFrontPosition(double newPosition) {
 		Road road = this.currentRoad;
-		
+		System.out.println(newPosition);
+		System.out.println(road.getEndPosition());
 		if(newPosition > road.getEndPosition()){
 			//TODO go to next road this.currentRoad.getNextRoad().accept(this, position - )
+			frontPosition = newPosition;
 		}else {
 			frontPosition = newPosition;
 		}
 	}
-	
 	@Override
 	public double getMaxVelocity() {
 		return maxVelocity;
 	}
-
 	@Override
 	public double getBrakeDistance() {
 		return brakeDistance;
 	}
-	
 	@Override
 	public double getStopDistance() {
 		return stopDistance;
 	}
-
 	@Override
 	public double getLength() {
 		return length;
 	}
-
 	@Override
 	public double getFrontPosition() {
 		return frontPosition;
 	}
-
 	@Override
 	public double getRearPosition() {
 		return frontPosition - length;
 	}
-
 	public Road getCurrentRoad() {
 		return currentRoad;
 	}
-
 	public void setCurrentRoad(Road currentRoad) {
 		this.currentRoad = currentRoad;
 	}

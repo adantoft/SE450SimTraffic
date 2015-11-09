@@ -16,15 +16,15 @@ public class StaticFactory {
 		return new CarObj();
 	}
 
-	static public final Road makeRoad() {
-		return new Road();
+	static public final Road makeRoad(CarAcceptor next) {
+		return new Road(next);
 	}
 
 	static public final Sink makeCarSink() {
 		return new Sink();
 	}
 
-	static public final CarSource makeCarSource() {
-		return new CarSourceObj();
+	static public final CarSource makeCarSource(CarAcceptor next) {
+		return new CarSourceObj(next);
 	}
 }

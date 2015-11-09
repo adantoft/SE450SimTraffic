@@ -10,10 +10,11 @@ public class CarSourceObj implements CarSource, Agent{
 	private CarAcceptor nextRoad;
 	private TimeServer time;
 	
-	CarSourceObj(){ //constructor
+	CarSourceObj(CarAcceptor next){ //constructor
 		this.time = config.getTimeServer();
 		this.productionFrequency = Math.max(config.getCarGenerationDelayMax() * Math.random(), config.getCarGenerationDelayMin());
 		this.time.enqueue(time.currentTime(), this);
+		this.nextRoad = next;
 	}
 	
 	@Override
@@ -26,7 +27,7 @@ public class CarSourceObj implements CarSource, Agent{
 		// TODO what if no road exists
 	}
 	@Override
-	public void setNextRoad(CarAcceptor road) {
+	public void setNextRoad(CarAcceptor road) { //TODO might not need this section
 		this.nextRoad = road;
 	}
 }
