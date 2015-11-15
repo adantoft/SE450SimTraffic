@@ -1,5 +1,7 @@
 package model;
 
+import model.StaticFactory.Orientation;
+
 public class Sink implements CarAcceptor{
 
 	@Override
@@ -8,7 +10,25 @@ public class Sink implements CarAcceptor{
 	}
 
 	@Override
-	public double distanceToObstacle(double fromPosition) {
+	public double distanceToObstacle(double fromPosition, Orientation orientation) {
 		return Double.POSITIVE_INFINITY;
+	}
+
+	@Override
+	public double getEndPosition() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public CarAcceptor getNextRoad(Orientation orientation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean remove(CarObj carObj) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

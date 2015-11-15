@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Set;
+
+import model.StaticFactory.Orientation;
 import parameters.ModelConfig;
 import java.util.HashSet;
 
@@ -14,7 +16,8 @@ final class Road implements CarAcceptor{
 	private ModelConfig config = ModelConfig.createConfig();
 	private Set<Car> cars;
 	private double endPosition;
-	CarAcceptor nextRoad;	
+	private CarAcceptor nextRoad;
+	private Orientation orientation;
 
 	Road(CarAcceptor next) { 
 		this.endPosition = Math.max(config.getRoadSegmentLengthMax() * Math.random(), config.getRoadSegmentLengthMin());
@@ -36,7 +39,7 @@ final class Road implements CarAcceptor{
 			return true;
 		}
 	}
-	
+	@Override
 	public boolean remove(CarObj c){
 		if (cars.contains(c)){
 			cars.remove(c);
@@ -48,18 +51,20 @@ final class Road implements CarAcceptor{
 	/**
 	 * Finds distance to closest object from fromPosition on this road or next road.
 	 */	
-	public double distanceToObstacle(double fromPosition) {
+	@Override
+	public double distanceToObstacle(double fromPosition, Orientation orientation) {
 		double obstaclePosition = this.getClosestObjPosition(fromPosition);
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
 			double distanceToEnd = this.endPosition - fromPosition;
-			obstaclePosition = nextRoad.distanceToObstacle(0.0) + distanceToEnd;
+			obstaclePosition = nextRoad.distanceToObstacle(0.0, orientation) + distanceToEnd;
 			return obstaclePosition;
 		}
 		return obstaclePosition - fromPosition;
 	}
 	/**
 	 * Finds position to closest object from fromPosition on this road.
-	 */	
+	 */
+	
 	private double getClosestObjPosition(double fromPosition) {
 		double carRearPosition = Double.POSITIVE_INFINITY;
 		for (Car c : cars)
@@ -70,7 +75,7 @@ final class Road implements CarAcceptor{
 	public double getEndPosition(){
 		return endPosition;
 	}
-	public CarAcceptor getNextRoad(){
+	public CarAcceptor getNextRoad(Orientation orientation){
 		return nextRoad;
 	}
 	public void setNextRoad(CarAcceptor nextRoad) {

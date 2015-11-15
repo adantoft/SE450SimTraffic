@@ -1,5 +1,6 @@
 package model;
 
+import model.StaticFactory.Orientation;
 import parameters.ModelConfig;
 import timeserver.TimeServer;
 
@@ -17,10 +18,11 @@ public class CarObj implements Agent, Car {
 	private double stopDistance;
 	private double length;
 	private double frontPosition;
-	private Road currentRoad;
+	private CarAcceptor currentRoad;
 	private double timeStep;
+	private Orientation orientation;
 
-	CarObj() { 
+	CarObj(Orientation orientation) { 
 
 		this.maxVelocity = Math.max(config.getCarMaxVelocityMax() * Math.random(), config.getCarMaxVelocityMin());
 		this.brakeDistance = Math.max(config.getCarBrakeDistanceMax() * Math.random(), config.getCarBrakeDistanceMin());
@@ -28,6 +30,7 @@ public class CarObj implements Agent, Car {
 		this.length = Math.max(config.getCarLengthMax() * Math.random(), config.getCarLengthMin());
 		this.time = config.getTimeServer();
 		this.timeStep = config.getSimTimeStep();
+		this.setOrientation(orientation);
 	}
 
 	public void run(double time) {
@@ -37,7 +40,7 @@ public class CarObj implements Agent, Car {
 	@Override
 	public double getCurrentVelocity() {
 		
-		double distanceToObstacle = currentRoad.distanceToObstacle(frontPosition); //talks to road to grab next object after front position
+		double distanceToObstacle = currentRoad.distanceToObstacle(frontPosition, orientation); //talks to road to grab next object after front position
 		double velocity =  (maxVelocity / (brakeDistance - stopDistance))*(distanceToObstacle - stopDistance);
 		velocity = Math.max(0.0, velocity);
 		velocity = Math.min(maxVelocity, velocity);
@@ -46,10 +49,9 @@ public class CarObj implements Agent, Car {
 	}
 	@Override
 	public void setFrontPosition(double newPosition) {
-		Road road = this.currentRoad;
+		CarAcceptor road = this.currentRoad;
 		if(newPosition > road.getEndPosition()){
-			//TODO go to next road this.currentRoad.getNextRoad().accept(this, position - )
-			road.getNextRoad().accept(this, newPosition - road.getEndPosition());
+			road.getNextRoad(orientation).accept(this, newPosition - road.getEndPosition());
 			road.remove(this);
 		}else {
 			frontPosition = newPosition;
@@ -79,13 +81,21 @@ public class CarObj implements Agent, Car {
 	public double getRearPosition() {
 		return frontPosition - length;
 	}
-	public Road getCurrentRoad() {
+	public CarAcceptor getCurrentRoad() {
 		return currentRoad;
 	}
-	public void setCurrentRoad(Road currentRoad) {
+	public void setCurrentRoad(CarAcceptor currentRoad) {
 		this.currentRoad = currentRoad;
 	}
 	public double getTimeStep() {
 		return this.timeStep;
 	}
+	public Orientation getOrientation() { 	//getters and setters for car orientation not needed for this implementation
+		return orientation;  				//they are kept in care car turning is ever implemented
+	}
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
+
 }

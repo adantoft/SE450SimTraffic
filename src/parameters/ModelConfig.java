@@ -11,7 +11,7 @@ import timeserver.TimeServerLinked;
  * All time units will be given in seconds
  */
 public class ModelConfig {
-	public enum TrafficPattern{SIMPLE, ALTERNATING}
+	public enum TrafficPattern{SIMPLE, ALTERNATING} //TODO Implement this
 	private static ModelConfig config = null;
 	private double simTimeStep =0.1;
 	private double simRunTime = 1000; 

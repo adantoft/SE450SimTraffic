@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import model.StaticFactory.Orientation;
 import parameters.ModelConfig;
 
 public class CarTEST {
@@ -13,7 +15,7 @@ public class CarTEST {
 	//TODO Tests for velocity
 	
 	ModelConfig config = ModelConfig.createConfig();
-	CarObj car1 = new CarObj();
+	CarObj car1 = new CarObj(Orientation.NS);
 		
 	@Test 
 	public void testConstructorAndAttributes() {
@@ -46,7 +48,7 @@ public class CarTEST {
 
 	@Test
 	public void testCarRoadToRoad() {
-		car1 = new CarObj();
+		car1 = new CarObj(Orientation.NS);
 		Sink sink1 = new Sink();
 		Road road2 = new Road(sink1);
 		Road road1 = new Road(road2);
