@@ -1,5 +1,5 @@
 package model;
 
 public interface Agent {
-  public void run(double time);
+  public void run(double duration);
 }

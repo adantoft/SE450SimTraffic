@@ -47,11 +47,10 @@ public class CarObj implements Agent, Car {
 	@Override
 	public void setFrontPosition(double newPosition) {
 		Road road = this.currentRoad;
-		System.out.println(newPosition);
-		System.out.println(road.getEndPosition());
 		if(newPosition > road.getEndPosition()){
 			//TODO go to next road this.currentRoad.getNextRoad().accept(this, position - )
-			frontPosition = newPosition;
+			road.getNextRoad().accept(this, newPosition - road.getEndPosition());
+			road.remove(this);
 		}else {
 			frontPosition = newPosition;
 		}
@@ -86,5 +85,7 @@ public class CarObj implements Agent, Car {
 	public void setCurrentRoad(Road currentRoad) {
 		this.currentRoad = currentRoad;
 	}
-
+	public double getTimeStep() {
+		return this.timeStep;
+	}
 }

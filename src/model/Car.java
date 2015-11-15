@@ -10,4 +10,5 @@ public interface Car {
 	public double getFrontPosition();
 	public void setFrontPosition(double position);
 	public double getRearPosition();
+	public double getTimeStep();
 }
