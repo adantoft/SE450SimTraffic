@@ -10,4 +10,5 @@ public interface CarAcceptor {
 	public CarAcceptor getNextRoad(Orientation orientation);
 	public boolean remove(CarObj carObj);
 	public LightState getLightState();
+	public void setNextRoad(CarAcceptor next, Orientation orientation);
 }

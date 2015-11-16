@@ -17,11 +17,16 @@ public class Intersection implements CarAcceptor{
 	private CarAcceptor nextRoadEW;
 	private Light light;
 
-	Intersection() { //doesn't set next road in construction as there are two, both might not be ready
+	Intersection(CarAcceptor next, Orientation orientation) { //doesn't set next road in construction as there are two, both might not be ready
 		this.endPosition = Math.max(config.getIntersectionLengthMax() * Math.random(), config.getIntersectionLengthMin());
 		this.carsNS = new HashSet<Car>();
 		this.carsEW = new HashSet<Car>();
 		this.light = StaticFactory.makeLight();
+		if (orientation == Orientation.NS){
+			nextRoadNS = next;
+		} else{
+			nextRoadEW = next;
+		}
 	}
 	/**
 	 * Accepts new car on this intersection.
@@ -130,5 +135,8 @@ public class Intersection implements CarAcceptor{
 	@Override
 	public LightState getLightState() {
 		return light.getLightState();
+	}
+	public Light getLight() {
+		return light;
 	}
 }

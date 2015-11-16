@@ -94,4 +94,8 @@ final class Road implements CarAcceptor{
 			return LightState.EWGREEN_NSRED;			
 		}
 	}
+	@Override
+	public void setNextRoad(CarAcceptor next, Orientation orientation) {
+		this.nextRoad = next;	
+	}
 }

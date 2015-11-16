@@ -40,4 +40,9 @@ public class Sink implements CarAcceptor{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void setNextRoad(CarAcceptor next, Orientation orientation) {
+		throw new UnsupportedOperationException();
+	}
 }

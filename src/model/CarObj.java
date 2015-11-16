@@ -23,6 +23,7 @@ public class CarObj implements Agent, Car {
 	private double timeStep;
 	private Orientation orientation;
 
+
 	CarObj(Orientation orientation) { 
 
 		this.maxVelocity = Math.max(config.getCarMaxVelocityMax() * Math.random(), config.getCarMaxVelocityMin());
@@ -43,8 +44,9 @@ public class CarObj implements Agent, Car {
 		
 		double distanceToObstacle = currentRoad.distanceToObstacle(frontPosition, orientation); //talks to road to grab next object after front position
 		
+		//TODO can this be done a better way?
 		//Below block checks if this car should brake because the light in the upcoming intersection is yellow
-		if (distanceToObstacle > currentRoad.getEndPosition() - getFrontPosition() ){ //if car will go onto next road
+		if ( (currentRoad.getEndPosition() - frontPosition) < distanceToObstacle ){ //if car will go onto next road
 			LightState nextRoadLightState = currentRoad.getNextRoad(orientation).getLightState(); //grab light state of next road (intersection)
 			if ((orientation == Orientation.NS && nextRoadLightState == LightState.NSYELLOW_EWRED) || //if the light is yellow (any direction)
 					(orientation == Orientation.EW && nextRoadLightState == LightState.EWYELLOW_NSRED)){ 

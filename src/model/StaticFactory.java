@@ -21,8 +21,8 @@ public class StaticFactory {
 	static public final CarAcceptor makeRoad(CarAcceptor next, Orientation orientation) {
 		return new Road(next, orientation);
 	}
-	static public final CarAcceptor makeIntersection() {
-		return new Intersection();
+	static public final CarAcceptor makeIntersection(CarAcceptor next, Orientation orientation) {
+		return new Intersection(next, orientation);
 	}
 	static public final CarAcceptor makeCarSink() {
 		return new Sink();
