@@ -8,6 +8,8 @@ import ui.UIError;
 import ui.UIForm;
 import ui.UIFormTest;
 import ui.UIFormBuilder;
+import animation.Model;
+import animation.SwingAnimatorBuilder;
 import model.StaticFactory;
 import parameters.ModelConfig;
 import parameters.ModelConfig.TrafficPattern;
@@ -85,10 +87,10 @@ class Control {
 		m.add("Run Simulation",
 				new UIMenuAction() {
 			public void run() {
-				//TODO RUN SIMULATION
-//				if (! c.run()) {
-//					_ui.displayError("Command failed");
-//				}
+				Model model = new Model(new SwingAnimatorBuilder(), config.getGridRows(), config.getGridColumns());
+				model.run(config.getSimRunTime());
+				model.dispose(); //trashes the simulation
+				_state = START;
 			}
 		});
 		m.add("Change Simulation Parameters",

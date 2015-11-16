@@ -12,7 +12,7 @@ import java.util.HashSet;
 /**
  * A road holds CarObjs.
  */
-final class Road implements CarAcceptor{
+public final class Road implements CarAcceptor{
 
 	private ModelConfig config = ModelConfig.createConfig();
 	private Set<Car> cars;
@@ -83,7 +83,7 @@ final class Road implements CarAcceptor{
 	public void setNextRoad(CarAcceptor nextRoad) {
 		this.nextRoad = nextRoad;
 	}
-	public Set<Car> getCars() {
+	public Set<Car> getCars(Orientation orientation) {
 		return cars;
 	}
 	@Override
@@ -97,5 +97,9 @@ final class Road implements CarAcceptor{
 	@Override
 	public void setNextRoad(CarAcceptor next, Orientation orientation) {
 		this.nextRoad = next;	
+	}
+	@Override
+	public Light getLight() {
+		return null;
 	}
 }

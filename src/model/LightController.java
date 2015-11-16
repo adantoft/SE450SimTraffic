@@ -5,13 +5,14 @@ import parameters.ModelConfig;
 import timeserver.TimeServer;
 
 /**
- * A light has a boolean state.
+ * A light has a boolean lightState.
  */
 public class LightController implements Light, Agent {
 
 	private ModelConfig config = ModelConfig.createConfig();
 	private TimeServer time;
-	private LightState state;
+	private LightState lightState;
+	private boolean state;
 	private double greenDurationNS;
 	private double yellowDurationNS;
 	private double greenDurationEW;
@@ -23,37 +24,40 @@ public class LightController implements Light, Agent {
 		this.greenDurationEW  = Math.max(config.getTrafficLightGreenTimeMax() * Math.random(), config.getTrafficLightGreenTimeMin());
 		this.yellowDurationEW = Math.max(config.getTrafficLightYellowTimeMax() * Math.random(), config.getTrafficLightYellowTimeMin());
 		this.time = config.getTimeServer();
-		this.state = (Math.random()>.5) ? LightState.NSGREEN_EWRED : LightState.EWGREEN_NSRED; //50% starting as green NS or EW
+		this.lightState = (Math.random()>.5) ? LightState.NSGREEN_EWRED : LightState.EWGREEN_NSRED; //50% starting as green NS or EW
+		this.state = true;
 	} 
 
 	@Override
 	public void run(double duration) {
-		switch (state) {
+		switch (lightState) {
 		
-			case NSGREEN_EWRED:		state = LightState.NSYELLOW_EWRED;
+			case NSGREEN_EWRED:		lightState = LightState.NSYELLOW_EWRED;
 									time.enqueue(time.currentTime() + yellowDurationNS, this);
 									break;
-			case NSYELLOW_EWRED:	state = LightState.EWGREEN_NSRED;
+			case NSYELLOW_EWRED:	lightState = LightState.EWGREEN_NSRED;
 									time.enqueue(time.currentTime() + greenDurationEW, this);
+									state = !state;
 									break;
-			case EWGREEN_NSRED:		state = LightState.EWYELLOW_NSRED;
+			case EWGREEN_NSRED:		lightState = LightState.EWYELLOW_NSRED;
 									time.enqueue(time.currentTime() + yellowDurationEW, this);
 									break;
-			case EWYELLOW_NSRED:	state = LightState.NSGREEN_EWRED;
+			case EWYELLOW_NSRED:	lightState = LightState.NSGREEN_EWRED;
 									time.enqueue(time.currentTime() + greenDurationNS, this);
+									state = !state;
 									break;
-			default:				state = LightState.EWGREEN_NSRED;
+			default:				lightState = LightState.EWGREEN_NSRED;
 									time.enqueue(time.currentTime() + greenDurationEW, this);
 									break;
 		}
 	}
 	@Override
 	public LightState getLightState() {
-		return state;
+		return lightState;
 	}
 	@Override
-	public void setLightState(LightState state) {
-		this.state = state;
+	public void setLightState(LightState lightState) {
+		this.lightState = lightState;
 	}
 	@Override
 	public double getGreenDurationNS() {
@@ -86,6 +90,12 @@ public class LightController implements Light, Agent {
 	@Override
 	public void setYellowDurationEW(double duration) {
 		this.yellowDurationEW = duration;
+	}
+
+	@Override
+	public boolean getState() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 

@@ -113,7 +113,7 @@ public class CarTEST {
 			car3.run(0);
 			car1.run(0);
 		}
-		Assert.assertTrue(road1.getCars().isEmpty());
+		Assert.assertTrue(road1.getCars(null).isEmpty());
 	}
 	
 	

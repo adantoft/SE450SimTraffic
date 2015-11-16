@@ -24,19 +24,19 @@ public class SourceSinkTEST {
 	@Test
 	public void testSourcingAndSinkingCar() {
 		
-		Assert.assertTrue(road1.getCars().isEmpty());
+		Assert.assertTrue(road1.getCars(null).isEmpty());
 		source1.run(0);
-		Assert.assertTrue(!road1.getCars().isEmpty());
+		Assert.assertTrue(!road1.getCars(null).isEmpty());
 		double timeToRun; 
 		CarObj car1;
-		for (Car c : road1.getCars()) {
+		for (Car c : road1.getCars(null)) {
 			car1 = (CarObj) c;
 			timeToRun = road1.getEndPosition()/c.getMaxVelocity() + 10; //how many steps to finish the road
 			for (double x = 0; x <= timeToRun; x+= config.getSimTimeStep()){
 				car1.run(0.0);
 			}
 		}
-		Assert.assertTrue(road1.getCars().isEmpty());
+		Assert.assertTrue(road1.getCars(null).isEmpty());
 	}
 
 	@Test

@@ -10,7 +10,8 @@ public class ModelConfigTEST {
 	
 	@Test
 	public void testToString() { 
-		System.out.println(config.toString());
+		//below line was used to test how the output of tostring looked
+		//System.out.println(config.toString());
 	}
 
 }

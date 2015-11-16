@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Set;
+
 import model.StaticFactory.LightState;
 import model.StaticFactory.Orientation;
 
@@ -44,5 +46,17 @@ public class Sink implements CarAcceptor{
 	@Override
 	public void setNextRoad(CarAcceptor next, Orientation orientation) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Light getLight() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Car> getCars(Orientation orientation) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

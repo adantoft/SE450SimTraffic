@@ -125,6 +125,7 @@ public class Intersection implements CarAcceptor{
 			this.nextRoadEW = nextRoad;
 		}
 	}
+	@Override
 	public Set<Car> getCars(Orientation orientation) {
 		if (orientation == Orientation.NS){
 			return carsNS;
@@ -136,6 +137,7 @@ public class Intersection implements CarAcceptor{
 	public LightState getLightState() {
 		return light.getLightState();
 	}
+	@Override
 	public Light getLight() {
 		return light;
 	}

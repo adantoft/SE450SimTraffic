@@ -24,7 +24,7 @@ public class RoadTEST {
 
 			Assert.assertTrue(road1.getEndPosition() <= config.getRoadSegmentLengthMax());
 			Assert.assertTrue(road1.getEndPosition() >= config.getRoadSegmentLengthMin());
-			Assert.assertTrue(road1.getCars().isEmpty());
+			Assert.assertTrue(road1.getCars(null).isEmpty());
 		}
 
 		@Test

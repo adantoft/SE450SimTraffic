@@ -5,7 +5,7 @@ import model.StaticFactory.LightState;
 /**
  * A light has a boolean state.
  */
-public interface Light {
+public interface Light extends Agent{
 
 	public LightState getLightState(); 
 	public void setLightState(LightState state);
@@ -17,6 +17,7 @@ public interface Light {
 	public void setYellowDurationNS(double duration);
 	public double getYellowDurationEW();
 	public void setYellowDurationEW(double duration);
+	public boolean getState();
 
 }
 
