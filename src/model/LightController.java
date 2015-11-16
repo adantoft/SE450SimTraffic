@@ -17,7 +17,6 @@ public class LightController implements Light, Agent {
 	private double greenDurationEW;
 	private double yellowDurationEW;
 
-
 	LightController() {
 		this.greenDurationNS  = Math.max(config.getTrafficLightGreenTimeMax() * Math.random(), config.getTrafficLightGreenTimeMin());
 		this.yellowDurationNS = Math.max(config.getTrafficLightYellowTimeMax() * Math.random(), config.getTrafficLightYellowTimeMin());
@@ -29,7 +28,24 @@ public class LightController implements Light, Agent {
 
 	@Override
 	public void run(double duration) {
-		// TODO Auto-generated method stub
+		switch (state) {
+		
+			case NSGREEN_EWRED:		state = LightState.NSYELLOW_EWRED;
+									time.enqueue(time.currentTime() + yellowDurationNS, this);
+									break;
+			case NSYELLOW_EWRED:	state = LightState.EWGREEN_NSRED;
+									time.enqueue(time.currentTime() + greenDurationEW, this);
+									break;
+			case EWGREEN_NSRED:		state = LightState.EWYELLOW_NSRED;
+									time.enqueue(time.currentTime() + yellowDurationEW, this);
+									break;
+			case EWYELLOW_NSRED:	state = LightState.NSGREEN_EWRED;
+									time.enqueue(time.currentTime() + greenDurationNS, this);
+									break;
+			default:				state = LightState.EWGREEN_NSRED;
+									time.enqueue(time.currentTime() + greenDurationEW, this);
+									break;
+		}
 	}
 	@Override
 	public LightState getLightState() {

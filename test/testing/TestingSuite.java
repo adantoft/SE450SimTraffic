@@ -8,12 +8,13 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import model.CarTEST;
 import model.IntersectionTEST;
+import model.LightControllerTEST;
 import model.RoadTEST;
 import model.SourceSinkTEST;
 import timeserver.TimeServerTEST;
 
 @RunWith(Suite.class) //Runs each of the below tests in addition to tests here
-@SuiteClasses({TimeServerTEST.class, CarTEST.class, RoadTEST.class, IntersectionTEST.class, SourceSinkTEST.class}) // add new tests here
+@SuiteClasses({TimeServerTEST.class, CarTEST.class, RoadTEST.class, IntersectionTEST.class, LightControllerTEST.class, SourceSinkTEST.class}) // add new tests here
 
 public class TestingSuite {
 
