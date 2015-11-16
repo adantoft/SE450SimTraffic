@@ -1,5 +1,7 @@
 package model;
 
+import parameters.ModelConfig;
+
 public class StaticFactory {
 
 	public enum Orientation {
@@ -11,6 +13,10 @@ public class StaticFactory {
 	}
 
 	public StaticFactory() {}
+	
+	static public final ModelConfig makeConfiguration() {
+		return ModelConfig.createConfig();
+	}
 	
 	static public final CarSource makeCarSource(CarAcceptor next, Orientation orientation) {
 		return new CarSourceObj(next, orientation);

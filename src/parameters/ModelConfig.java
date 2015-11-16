@@ -83,10 +83,10 @@ public class ModelConfig {
 	public void setGridRows(int gridRows) {this.gridRows = gridRows;}
 
 	public int getGridColumns() {return gridColumns;}
-	public void setgridColumns(int gridColumns) {this.gridColumns = gridColumns;}
+	public void setGridColumns(int gridColumns) {this.gridColumns = gridColumns;}
 
 	public Double getCarLengthMin() {return carLengthMin;}
-	public void setcarLengthMin(Double carLengthMin) {this.carLengthMin = carLengthMin;}
+	public void setCarLengthMin(Double carLengthMin) {this.carLengthMin = carLengthMin;}
 
 	public Double getCarLengthMax() {return carLengthMax;}
 	public void setCarLengthMax(Double carLengthMax) {this.carLengthMax = carLengthMax;}
