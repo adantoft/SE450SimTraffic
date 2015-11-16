@@ -16,7 +16,7 @@ public class RoadTEST {
 		
 		ModelConfig config = ModelConfig.createConfig();
 		Sink sink1 = new Sink();
-		Road road1 = new Road(sink1);
+		Road road1 = new Road(sink1, Orientation.NS);
 		CarObj car1 = new CarObj(Orientation.NS);
 		
 		@Test 

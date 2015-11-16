@@ -1,5 +1,6 @@
 package model;
 
+import model.StaticFactory.LightState;
 import model.StaticFactory.Orientation;
 import parameters.ModelConfig;
 import timeserver.TimeServer;
@@ -30,7 +31,7 @@ public class CarObj implements Agent, Car {
 		this.length = Math.max(config.getCarLengthMax() * Math.random(), config.getCarLengthMin());
 		this.time = config.getTimeServer();
 		this.timeStep = config.getSimTimeStep();
-		this.setOrientation(orientation);
+		this.orientation = orientation;
 	}
 
 	public void run(double time) {
@@ -41,6 +42,17 @@ public class CarObj implements Agent, Car {
 	public double getCurrentVelocity() {
 		
 		double distanceToObstacle = currentRoad.distanceToObstacle(frontPosition, orientation); //talks to road to grab next object after front position
+		
+		//Below block checks if this car should brake because the light in the upcoming intersection is yellow
+		if (distanceToObstacle > currentRoad.getEndPosition() - getFrontPosition() ){ //if car will go onto next road
+			LightState nextRoadLightState = currentRoad.getNextRoad(orientation).getLightState(); //grab light state of next road (intersection)
+			if ((orientation == Orientation.NS && nextRoadLightState == LightState.NSYELLOW_EWRED) || //if the light is yellow (any direction)
+					(orientation == Orientation.EW && nextRoadLightState == LightState.EWYELLOW_NSRED)){ 
+				if (currentRoad.getEndPosition() - getFrontPosition() > brakeDistance){ //AND if the distance is greater than braking distance
+					distanceToObstacle = currentRoad.getEndPosition() - getFrontPosition(); //distance to obstacle is end of road (can't enter intersection)
+				}
+			} 
+		}		
 		double velocity =  (maxVelocity / (brakeDistance - stopDistance))*(distanceToObstacle - stopDistance);
 		velocity = Math.max(0.0, velocity);
 		velocity = Math.min(maxVelocity, velocity);

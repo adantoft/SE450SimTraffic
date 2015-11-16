@@ -1,5 +1,6 @@
 package model;
 
+import model.StaticFactory.Orientation;
 import parameters.ModelConfig;
 import timeserver.TimeServer;
 
@@ -9,17 +10,19 @@ public class CarSourceObj implements CarSource, Agent{
 	private double productionFrequency;
 	private CarAcceptor nextRoad;
 	private TimeServer time;
+	private Orientation orientation;
 	
-	CarSourceObj(CarAcceptor next){ //constructor
+	CarSourceObj(CarAcceptor next, Orientation orientation){ //constructor
 		this.time = config.getTimeServer();
 		this.productionFrequency = Math.max(config.getCarGenerationDelayMax() * Math.random(), config.getCarGenerationDelayMin());
 		this.time.enqueue(time.currentTime(), this);
 		this.nextRoad = next;
+		this.orientation = orientation;
 	}
 	
 	@Override
 	public void run(double time) {
-		CarObj c = StaticFactory.makeCar();
+		CarObj c = StaticFactory.makeCar(orientation);
 		nextRoad.accept(c, 0.0);
 		this.time.enqueue(this.time.currentTime() + config.getSimTimeStep(), c); //TODO make this part of CarObj?		
 		this.time.enqueue(this.time.currentTime() + productionFrequency, this);

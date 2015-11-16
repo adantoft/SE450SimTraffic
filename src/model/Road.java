@@ -2,6 +2,7 @@ package model;
 
 import java.util.Set;
 
+import model.StaticFactory.LightState;
 import model.StaticFactory.Orientation;
 import parameters.ModelConfig;
 import java.util.HashSet;
@@ -19,10 +20,11 @@ final class Road implements CarAcceptor{
 	private CarAcceptor nextRoad;
 	private Orientation orientation;
 
-	Road(CarAcceptor next) { 
+	Road(CarAcceptor next, Orientation orientation) { 
 		this.endPosition = Math.max(config.getRoadSegmentLengthMax() * Math.random(), config.getRoadSegmentLengthMin());
 		this.cars = new HashSet<Car>();
 		this.nextRoad = next;
+		this.orientation = orientation;
 	}
 	/**
 	 * Accepts new car on this road.
@@ -83,5 +85,13 @@ final class Road implements CarAcceptor{
 	}
 	public Set<Car> getCars() {
 		return cars;
+	}
+	@Override
+	public LightState getLightState() {
+		if (orientation == Orientation.NS) {
+			return LightState.NSGREEN_EWRED;
+		} else{
+			return LightState.EWGREEN_NSRED;			
+		}
 	}
 }

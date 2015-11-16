@@ -18,8 +18,8 @@ public class IntersectionTEST {
 			Sink sinkNS = new Sink();
 			Sink sinkEW = new Sink();
 			Intersection intersect = new Intersection();
-			Road roadNS = new Road(intersect);
-			Road roadEW = new Road(intersect);
+			Road roadNS = new Road(intersect, Orientation.NS);
+			Road roadEW = new Road(intersect, Orientation.NS);
 			CarObj carNS = new CarObj(Orientation.NS);
 			CarObj carEW = new CarObj(Orientation.EW);
 			

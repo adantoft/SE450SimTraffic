@@ -3,6 +3,7 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import model.StaticFactory.LightState;
 import model.StaticFactory.Orientation;
 import parameters.ModelConfig;
 
@@ -14,14 +15,16 @@ public class Intersection implements CarAcceptor{
 	private double endPosition;
 	private CarAcceptor nextRoadNS;
 	private CarAcceptor nextRoadEW;
+	private Light light;
 
 	Intersection() { //doesn't set next road in construction as there are two, both might not be ready
 		this.endPosition = Math.max(config.getIntersectionLengthMax() * Math.random(), config.getIntersectionLengthMin());
 		this.carsNS = new HashSet<Car>();
 		this.carsEW = new HashSet<Car>();
+		this.light = StaticFactory.makeLight();
 	}
 	/**
-	 * Accepts new car on this road.
+	 * Accepts new car on this intersection.
 	 */
 	@Override
 	public boolean accept(CarObj car, double frontPosition) { //need to conform to carAcceptor		
@@ -61,8 +64,14 @@ public class Intersection implements CarAcceptor{
 	 * Finds distance to closest object from fromPosition on this road or next road.
 	 */	
 	public double distanceToObstacle(double fromPosition, Orientation orientation) {
+		double obstaclePosition;
+		
 		if (orientation == Orientation.NS){
-			double obstaclePosition = this.getClosestObjPosition(fromPosition, carsNS);
+			
+			if (light.getLightState() == LightState.EWGREEN_NSRED || !carsEW.isEmpty()) {
+				return 0.0; //not allowed into intersection as light is red or intersection is occupied by cars in opposite direction
+			}
+			obstaclePosition = this.getClosestObjPosition(fromPosition, carsNS);
 			if (obstaclePosition == Double.POSITIVE_INFINITY) {
 				double distanceToEnd = this.endPosition - fromPosition;
 				obstaclePosition = nextRoadNS.distanceToObstacle(0.0, orientation) + distanceToEnd;
@@ -70,7 +79,12 @@ public class Intersection implements CarAcceptor{
 			}
 			return obstaclePosition - fromPosition;
 		}else{ //orientation is EW
-			double obstaclePosition = this.getClosestObjPosition(fromPosition, carsEW);
+			if (light.getLightState() == LightState.NSGREEN_EWRED || !carsNS.isEmpty()) {
+				return 0.0; //not allowed into intersection as light is red or intersection is occupied by cars in opposite direction
+			}
+			
+			
+			obstaclePosition = this.getClosestObjPosition(fromPosition, carsEW);
 			if (obstaclePosition == Double.POSITIVE_INFINITY) {
 				double distanceToEnd = this.endPosition - fromPosition;
 				obstaclePosition = nextRoadEW.distanceToObstacle(0.0, orientation) + distanceToEnd;
@@ -112,5 +126,9 @@ public class Intersection implements CarAcceptor{
 		}else{ //orientation is EW
 			return carsEW;
 		}
+	}
+	@Override
+	public LightState getLightState() {
+		return light.getLightState();
 	}
 }

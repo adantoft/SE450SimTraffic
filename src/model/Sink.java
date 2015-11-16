@@ -1,9 +1,12 @@
 package model;
 
+import model.StaticFactory.LightState;
 import model.StaticFactory.Orientation;
 
 public class Sink implements CarAcceptor{
 
+	//TODO add orientation
+	
 	@Override
 	public boolean accept(CarObj c, double frontPosition) {
 		return true; //Eats up car (does nothing)
@@ -30,5 +33,11 @@ public class Sink implements CarAcceptor{
 	public boolean remove(CarObj carObj) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public LightState getLightState() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

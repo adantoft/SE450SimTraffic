@@ -11,20 +11,23 @@ public class StaticFactory {
 	}
 
 	public StaticFactory() {}
-
-	static public final CarObj makeCar() {
-		return new CarObj();
+	
+	static public final CarSource makeCarSource(CarAcceptor next, Orientation orientation) {
+		return new CarSourceObj(next, orientation);
 	}
-
-	static public final Road makeRoad(CarAcceptor next) {
-		return new Road(next);
+	static public final CarObj makeCar(Orientation orientation) {
+		return new CarObj(orientation);
 	}
-
-	static public final Sink makeCarSink() {
+	static public final CarAcceptor makeRoad(CarAcceptor next, Orientation orientation) {
+		return new Road(next, orientation);
+	}
+	static public final CarAcceptor makeIntersection() {
+		return new Intersection();
+	}
+	static public final CarAcceptor makeCarSink() {
 		return new Sink();
 	}
-
-	static public final CarSource makeCarSource(CarAcceptor next) {
-		return new CarSourceObj(next);
+	static public final Light makeLight() {
+		return new LightController();
 	}
 }

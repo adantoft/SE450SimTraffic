@@ -1,5 +1,6 @@
 package model;
 
+import model.StaticFactory.LightState;
 import model.StaticFactory.Orientation;
 
 public interface CarAcceptor {
@@ -8,4 +9,5 @@ public interface CarAcceptor {
 	public double getEndPosition();
 	public CarAcceptor getNextRoad(Orientation orientation);
 	public boolean remove(CarObj carObj);
+	public LightState getLightState();
 }
