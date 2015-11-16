@@ -83,6 +83,41 @@ public class CarTEST {
 	}
 	
 	@Test
+	public void testCarVsCarVsCar() {
+		car1 = new CarObj(Orientation.NS);
+		CarObj car2 = new CarObj(Orientation.NS);
+		CarObj car3 = new CarObj(Orientation.NS);
+		Sink sink1 = new Sink();
+		Road road1 = new Road(sink1, Orientation.NS);
+		Assert.assertEquals(car1.getCurrentRoad(), null);
+		road1.accept(car1, 0);
+		road1.accept(car2, road1.getEndPosition() - 10); //sets car2 10 from end of road
+		road1.accept(car3, 50); //sets car3 middle of the road
+		Assert.assertEquals(car1.getCurrentRoad(), road1);
+		Assert.assertEquals(car2.getCurrentRoad(), road1);
+		Assert.assertEquals(car3.getCurrentRoad(), road1);
+		double timeToRun = road1.getEndPosition()/Math.min(car1.getMaxVelocity(), car2.getMaxVelocity()) + 10; //how many steps to finish the road
+		for (double x = 0; x <= timeToRun; x+= config.getSimTimeStep()){
+			car1.run(0);
+		}	
+		Assert.assertEquals(car1.getCurrentRoad(), road1);
+		for (double x = 0; x <= timeToRun; x+= config.getSimTimeStep()){
+			car3.run(0);
+		}
+		Assert.assertEquals(car3.getCurrentRoad(), road1);
+		Assert.assertEquals(car1.getCurrentRoad(), road1);
+		for (double x = 0; x <= timeToRun; x+= config.getSimTimeStep()){
+			car2.run(0);
+		}
+		for (double x = 0; x <= timeToRun; x+= config.getSimTimeStep()){
+			car3.run(0);
+			car1.run(0);
+		}
+		Assert.assertTrue(road1.getCars().isEmpty());
+	}
+	
+	
+	@Test
 	public void testCarVsRedLightGreenLight() {
 		car1 = new CarObj(Orientation.NS);
 		Sink sink1 = new Sink();

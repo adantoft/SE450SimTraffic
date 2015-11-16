@@ -11,7 +11,7 @@ import timeserver.TimeServerLinked;
  * All time units will be given in seconds
  */
 public class ModelConfig {
-	public enum TrafficPattern{SIMPLE, ALTERNATING} //TODO Implement this
+
 	private static ModelConfig config = null;
 	private double simTimeStep =0.1;
 	private double simRunTime = 1000; 
@@ -38,6 +38,22 @@ public class ModelConfig {
 	private double trafficLightYellowTimeMax = 5;
 	private TimeServer tserver = new TimeServerLinked();
 
+	public enum TrafficPattern{
+		SIMPLE("simple"),
+		ALTERNATING("alternating");
+
+		private String str;
+
+		TrafficPattern(String name) {
+			str = name;
+		}
+
+		@Override
+		public String toString() {
+			return str;
+		}	
+	}
+	
 	private ModelConfig() {}
 	
 	public static ModelConfig createConfig(){
@@ -123,6 +139,23 @@ public class ModelConfig {
 	public double getTrafficLightYellowTimeMax() {return trafficLightYellowTimeMax;}
 	public void setTrafficLightYellowTimeMax(double trafficLightYellowTimeMax) {this.trafficLightYellowTimeMax = trafficLightYellowTimeMax;}
 
+	public String toString() {
+		StringBuilder b = new StringBuilder();
+		b.append("Simulation time step (seconds)		[" + simTimeStep + "]\n");
+		b.append("Simulation run time (seconds)	        [" + simRunTime + "]\n");
+		b.append("Grid size (number of roads)	        [row=" + gridRows + ",column=" + gridColumns + "]\n");
+		b.append("Traffic pattern		                [" + trafficPattern + "]\n");
+		b.append("Car entry rate (seconds/car)	        [min=" + carGenerationDelayMin + ",max=" + carGenerationDelayMax + "]\n");
+		b.append("Road segment length (meters)	        [min=" + roadSegmentLengthMin + ",max=" + roadSegmentLengthMax + "]\n");
+		b.append("Intersection length (meters)	        [min=" + intersectionLengthMin + ",max=" + intersectionLengthMax + "]\n");
+		b.append("Car length (meters)	                [min=" + carLengthMin + ",max=" + carLengthMax + "]\n");
+		b.append("Car maximum velocity (meters/second)	[min=" + carMaxVelocityMin + ",max=" + carMaxVelocityMax + "]\n");
+		b.append("Car stop distance (meters)	        [min=" + carStopDistanceMin + ",max=" + carStopDistanceMax + "]\n");
+		b.append("Car brake distance (meters)	        [min=" + carBrakeDistanceMin + ",max=" + carBrakeDistanceMax + "]\n");
+		b.append("Traffic light green time (seconds)	[min=" + trafficLightGreenTimeMin + ",max=" + trafficLightGreenTimeMax + "]\n");
+		b.append("Traffic light yellow time (seconds)	[min=" + trafficLightYellowTimeMin + ",max=" + trafficLightYellowTimeMax + "]\n");
+		return b.toString();
+	}
 } 
 
 
