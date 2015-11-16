@@ -55,6 +55,7 @@ public class CarObj implements Agent, Car {
 				}
 			} 
 		}		
+		if (distanceToObstacle > brakeDistance && distanceToObstacle <= maxVelocity) distanceToObstacle = distanceToObstacle/2; //prevents jumping over cars
 		double velocity =  (maxVelocity / (brakeDistance - stopDistance))*(distanceToObstacle - stopDistance);
 		velocity = Math.max(0.0, velocity);
 		velocity = Math.min(maxVelocity, velocity);

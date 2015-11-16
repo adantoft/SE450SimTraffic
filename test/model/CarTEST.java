@@ -116,12 +116,12 @@ public class CarTEST {
 		Assert.assertEquals(road1, car1.getCurrentRoad());
 		intersect.getLight().setLightState(LightState.NSYELLOW_EWRED);
 		Assert.assertEquals(LightState.NSYELLOW_EWRED, intersect.getLightState());
-		System.out.println("Road1 Position: " + road1.getEndPosition());
+		//System.out.println("Road1 Position: " + road1.getEndPosition());
 
 		double timeToRun = road1.getEndPosition()/car1.getMaxVelocity() + 10; //how many steps to finish the road
 		for (double x = 0; x <= timeToRun; x+= config.getSimTimeStep()){
 			car1.run(0);
-			System.out.println("Car1 Position: " + car1.getFrontPosition());
+			//System.out.println("Car1 Position: " + car1.getFrontPosition());
 		}	
 		Assert.assertEquals(road1, car1.getCurrentRoad());
 	}
