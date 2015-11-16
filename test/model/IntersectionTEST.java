@@ -17,7 +17,7 @@ public class IntersectionTEST {
 			ModelConfig config = ModelConfig.createConfig();
 			Sink sinkNS = new Sink();
 			Sink sinkEW = new Sink();
-			Intersection intersect = new Intersection();
+			Intersection intersect = new Intersection(sinkNS, Orientation.NS);
 			Road roadNS = new Road(intersect, Orientation.NS);
 			Road roadEW = new Road(intersect, Orientation.NS);
 			CarObj carNS = new CarObj(Orientation.NS);
@@ -30,7 +30,7 @@ public class IntersectionTEST {
 				Assert.assertTrue(intersect.getEndPosition() >= config.getIntersectionLengthMin());
 				Assert.assertTrue(intersect.getCars(Orientation.NS).isEmpty());
 				Assert.assertTrue(intersect.getCars(Orientation.EW).isEmpty());
-				intersect.setNextRoad(sinkNS, Orientation.NS);
+				//intersect.setNextRoad(sinkNS, Orientation.NS);
 				intersect.setNextRoad(sinkEW, Orientation.EW);
 				Assert.assertSame(sinkNS, intersect.getNextRoad(Orientation.NS));
 				Assert.assertSame(sinkEW, intersect.getNextRoad(Orientation.EW));
