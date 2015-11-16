@@ -1,20 +1,23 @@
 package model;
 
+import model.StaticFactory.LightState;
+
 /**
  * A light has a boolean state.
  */
-public class Light implements Agent {
-  Light() { } // Created only by this package
-  
-  private boolean _state;
+public interface Light {
 
-  public boolean getState() {
-    return _state;
-  }
-  public void run(double time) {
-    if (time%40==0) {
-      _state = !_state;
-    }
-  }
+	public LightState getLightState(); 
+	public void setLightState(LightState state);
+	public double getGreenDurationNS();
+	public void setGreenDurationNS(double duration);
+	public double getGreenDurationEW();
+	public void setGreenDurationEW(double duration);
+	public double getYellowDurationNS();
+	public void setYellowDurationNS(double duration);
+	public double getYellowDurationEW();
+	public void setYellowDurationEW(double duration);
+
 }
+
 

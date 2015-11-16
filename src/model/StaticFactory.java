@@ -7,7 +7,7 @@ public class StaticFactory {
 	}
 
 	public enum LightState {
-		NSGREEN, NSYELLOW, EWGREEN, EWYELLOW
+		NSGREEN_EWRED, NSYELLOW_EWRED, EWGREEN_NSRED, EWYELLOW_NSRED
 	}
 
 	public StaticFactory() {}
