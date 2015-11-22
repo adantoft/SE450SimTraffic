@@ -6,7 +6,7 @@ import org.junit.Test;
 import model.Agent;
 
 public class TimeServerTEST {
-	TimeServerQueue q = new TimeServerQueue();
+	TimeServerLinked q = new TimeServerLinked();
 	// TimeServerLinked q = new TimeServerLinked();
 
 	@Test

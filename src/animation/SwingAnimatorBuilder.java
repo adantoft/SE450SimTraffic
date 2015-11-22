@@ -96,9 +96,14 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
       
       // draw the foreground elements
       for (Element<CarAcceptor> e : _roadElements) {
-        for (Car d : e.x.getCars(null)) {
-          g.setColor(Color.GRAY);//TODO can add different colors for cars
-          XGraphics.fillOval(g, e.t, ((d.getFrontPosition() * (MP.roadLength / d.getCurrentRoad().getEndPosition())) - d.getLength() * (MP.roadLength / d.getCurrentRoad().getEndPosition())), 0, d.getLength(), VP.elementWidth);
+        for (Car d : e.x.getCars(null).toArray(new Car[0])) {
+          g.setColor(Color.MAGENTA);//TODO can add different colors for cars
+          XGraphics.fillOval(g,
+        		  			e.t,
+        		  			((d.getFrontPosition() * (MP.roadLength / d.getCurrentRoad().getEndPosition())) - d.getLength() * (MP.roadLength / d.getCurrentRoad().getEndPosition())),
+        		  			0,
+        		  			d.getLength(),
+        		  			VP.elementWidth);
         }
       }
     }

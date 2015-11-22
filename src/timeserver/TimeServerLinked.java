@@ -1,8 +1,10 @@
 package timeserver;
 
+import java.util.Observable;
+
 import model.Agent;
 
-public final class TimeServerLinked implements TimeServer {
+public final class TimeServerLinked extends Observable implements TimeServer {
 	private static final class Node {
 		final double waketime;
 		final Agent agent;
@@ -80,6 +82,8 @@ public final class TimeServerLinked implements TimeServer {
 		while ((!empty()) && (_head.next.waketime <= endtime)) {
 			_currentTime = _head.next.waketime;
 			dequeue().run(duration);
+			super.setChanged();
+			super.notifyObservers();
 		}
 		_currentTime = endtime;
 	}

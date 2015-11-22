@@ -31,7 +31,7 @@ public class SwingAnimator implements Animator {
   private boolean _disposed = false; // If true, then die
   
   // The following fields are manipulated by both threads
-  private volatile boolean _lock = false; // Used to synchronize the threads
+//  private volatile boolean _lock = false; // Used to synchronize the threads
 
   /**
    * Creates and displays a {@link JFrame} for the animation.
@@ -75,21 +75,20 @@ public class SwingAnimator implements Animator {
     if (_disposed)
       throw new IllegalStateException();
     
-    _lock = true;
+//    _lock = true;
     // Redraw the window
     SwingUtilities.invokeLater(new Runnable() {
         public void run() {
           // _content.repaint() causes a call to _content.paint(g)
           // where g is an appropriate graphics argument.
           _content.repaint();
-          _lock = false;
+//          _lock = false;
         }});
     
     // Delay the main thread
     try {
-      while (_lock) {
-        Thread.currentThread().sleep(_delay);
-      }
+        Thread.currentThread();
+        Thread.sleep(_delay);
     } catch (InterruptedException e) {}
   }
 
@@ -113,9 +112,9 @@ public class SwingAnimator implements Animator {
       setBackground(Color.WHITE);
     }
     
-    void setPainter(SwingAnimatorPainter painter) {
-      _painter = painter;
-    }
+//    void setPainter(SwingAnimatorPainter painter) {
+//      _painter = painter;
+//    }
 
     public void paint(Graphics g) {
       // This test is necessary because the swing thread may call this

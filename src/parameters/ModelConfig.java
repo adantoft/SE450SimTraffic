@@ -17,7 +17,7 @@ public class ModelConfig {
 	private double simRunTime = 1000; 
 	private int gridRows = 2;
 	private int gridColumns = 3;
-	private TrafficPattern trafficPattern = TrafficPattern.ALTERNATING;
+	private TrafficPattern trafficPattern = TrafficPattern.SIMPLE;
 	private double roadSegmentLengthMin = 200;
 	private double roadSegmentLengthMax = 500;
 	private double intersectionLengthMin = 10;

@@ -60,6 +60,7 @@ public class Model extends Observable {
     setup(builder, rows, columns);
     _animator = builder.getAnimator();
     super.addObserver(_animator);
+    this._time.addObserver(_animator);
   }
 
   /**
@@ -109,10 +110,11 @@ public class Model extends Observable {
     				rd = StaticFactory.makeRoad(StaticFactory.makeCarSink(),Orientation.EW);
     				intersections[i][j].setNextRoad(rd, Orientation.EW);
     			} else if (j == columns) {
-    				rd = StaticFactory.makeRoad(intersections[i][j+1],Orientation.EW);
+    				rd = StaticFactory.makeRoad(intersections[i][j-1],Orientation.EW);
     				StaticFactory.makeCarSource(rd, Orientation.EW);
     			}else {
-    				rd = StaticFactory.makeRoad(intersections[i][j+1],Orientation.EW);
+    				rd = StaticFactory.makeRoad(intersections[i][j],Orientation.EW);
+    				intersections[i][j].setNextRoad(rd, Orientation.EW);
     			}
     			builder.addHorizontalRoad(rd, i, j, eastToWest);
     			roads.add(rd);
@@ -123,12 +125,13 @@ public class Model extends Observable {
     			CarAcceptor rd;			
     			if (j == columns) { //at end, makes a sink
     				rd = StaticFactory.makeRoad(StaticFactory.makeCarSink(),Orientation.EW);
-    				intersections[i][j].setNextRoad(rd, Orientation.EW);
+    				intersections[i][j-1].setNextRoad(rd, Orientation.EW);
     			} else if (j == 0) {
-    				rd = StaticFactory.makeRoad(intersections[i][j+1],Orientation.EW);
+    				rd = StaticFactory.makeRoad(intersections[i][j],Orientation.EW);
     				StaticFactory.makeCarSource(rd, Orientation.EW);
     			}else {
-    				rd = StaticFactory.makeRoad(intersections[i][j+1],Orientation.EW);
+    				rd = StaticFactory.makeRoad(intersections[i][j],Orientation.EW);
+    				intersections[i][j-1].setNextRoad(rd, Orientation.EW);
     			}
     			builder.addHorizontalRoad(rd, i, j, eastToWest);
     			roads.add(rd);
@@ -141,36 +144,38 @@ public class Model extends Observable {
 
     // Add Vertical Roads
     boolean southToNorth = false;
-    for (int i=0; i<rows; i++) {
+    for (int j=0; j< columns; j++) {
     	if (southToNorth) { //alternating mode
-    		for (int j=0; j<=columns; j++) {
+    		for (int i=0; i<=rows; i++) {
     			CarAcceptor rd;			
-    			if (j == 0) { //at end, makes a sink
+    			if (i == 0) { //at end, makes a sink
     				rd = StaticFactory.makeRoad(StaticFactory.makeCarSink(),Orientation.NS);
     				intersections[i][j].setNextRoad(rd, Orientation.NS);
-    			} else if (j == columns) {
-    				rd = StaticFactory.makeRoad(intersections[i][j+1],Orientation.NS);
+    			} else if (i == rows) {
+    				rd = StaticFactory.makeRoad(intersections[i][j-1],Orientation.NS);
     				StaticFactory.makeCarSource(rd, Orientation.NS);
     			}else {
-    				rd = StaticFactory.makeRoad(intersections[i][j+1],Orientation.NS);
+    				rd = StaticFactory.makeRoad(intersections[i][j],Orientation.NS);
+    				intersections[i][j].setNextRoad(rd, Orientation.NS);
     			}
-    			builder.addHorizontalRoad(rd, i, j, southToNorth);
+    			builder.addVerticalRoad(rd, i, j, southToNorth);
     			roads.add(rd);
     		}
     	}
     	else { //simple mode
-    		for (int j=columns; j>=0; j--) {
+    		for (int i=rows; i>=0; i--) {
     			CarAcceptor rd;			
-    			if (j == columns) { //at end, makes a sink
+    			if (i == rows) { //at end, makes a sink
     				rd = StaticFactory.makeRoad(StaticFactory.makeCarSink(),Orientation.NS);
-    				intersections[i][j].setNextRoad(rd, Orientation.NS);
-    			} else if (j == 0) {
-    				rd = StaticFactory.makeRoad(intersections[i][j+1],Orientation.NS);
+    				intersections[i-1][j].setNextRoad(rd, Orientation.NS);
+    			} else if (i == 0) {
+    				rd = StaticFactory.makeRoad(intersections[i][j],Orientation.NS);
     				StaticFactory.makeCarSource(rd, Orientation.NS);
     			}else {
-    				rd = StaticFactory.makeRoad(intersections[i][j+1],Orientation.NS);
+    				rd = StaticFactory.makeRoad(intersections[i][j],Orientation.NS);
+    				intersections[i-1][j].setNextRoad(rd, Orientation.NS);
     			}
-    			builder.addHorizontalRoad(rd, i, j, southToNorth);
+    			builder.addVerticalRoad(rd, i, j, southToNorth);
     			roads.add(rd);
     		}
     	}
