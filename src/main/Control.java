@@ -47,22 +47,26 @@ class Control {
 			}
 		};
 	}
-
-	private int buildIntegerForm(String title) {
+	
+	/**
+	 * Makes UI form
+	 * @param title 
+	 * @return array of strings from user input
+	 */
+		//TODO add error checking on no input from user
+		//TODO enforce max value is greater than min value
+	private String[] makeFormGetResults (String title){
 		UIFormBuilder form = new UIFormBuilder();
 		form.add(title, _numberTest);
 		UIForm _getForm = form.toUIForm(title);
-		String[] result1 = _ui.processForm(_getForm);
-		int newValue = Integer.parseInt(result1[0]);
-		return newValue;
+		return _ui.processForm(_getForm);
+	}
+	
+	private int buildIntegerForm(String title) {
+		return Integer.parseInt(makeFormGetResults(title)[0]);
 	}
 	private double buildDoubleForm(String title) {
-		UIFormBuilder form = new UIFormBuilder();
-		form.add(title, _numberTest);
-		UIForm _getForm = form.toUIForm(title);
-		String[] result1 = _ui.processForm(_getForm);
-		Double newValue = Double.parseDouble(result1[0]);
-		return newValue;
+		return Double.parseDouble(makeFormGetResults(title)[0]);
 	}	
 	
 	void run() { //All UIs have this loop; wait for input then act
